@@ -2,14 +2,19 @@ package com.tie.light;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.controllers.Controller;
+import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
+import com.tie.light.entities.Bike;
 import com.tie.light.input.InputHandler;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Properties;
+import java.util.Set;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
@@ -28,9 +33,9 @@ public class LightMain extends ApplicationAdapter {
 	@Parameter(names = {"--loggingLevel", "--logLevel", "-log"})
 	private String loggingLevel;
 
-	SpriteBatch batch;
+	private SpriteBatch batch;
 
-	Bike bike;
+	private Set<Bike> bikes = new HashSet<>();
 
 	public LightMain(String[] arg) {
 		JCommander.newBuilder()
@@ -45,8 +50,15 @@ public class LightMain extends ApplicationAdapter {
 		applyConfig();
 		Gdx.input.setInputProcessor(INPUT_HANDLER);
 
+		int i = 0;
+		bikes.add(new com.tie.light.entities.Bike(i, null));
+		for (Controller controller : Controllers.getControllers()) {
+			i++;
+			controller.addListener(INPUT_HANDLER);
+			bikes.add(new com.tie.light.entities.Bike(i, controller));
+		}
 		batch = new SpriteBatch();
-		bike = new Bike(0);
+
 	}
 
 	@Override
@@ -56,8 +68,10 @@ public class LightMain extends ApplicationAdapter {
 		batch.begin();
 
 		//batch.setProjectionMatrix(new Matrix4(new Quaternion(10,0,0,100) ));
+		for (Bike bike : bikes) {
+			bike.draw(batch, 1);
+		}
 
-		bike.draw(batch, 1);
 
 		batch.end();
 	}
