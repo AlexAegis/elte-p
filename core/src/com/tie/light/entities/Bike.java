@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.tie.light.LightMain;
-import com.tie.light.input.InputDetail;
+import com.tie.light.input.InputEvent;
 import com.tie.light.input.InputKey;
 
 import java.util.HashMap;
@@ -27,7 +27,7 @@ public class Bike extends Actor {
 
 	private int player;
 
-	private Map<InputKey, Consumer<InputDetail>> controlMap = new HashMap<>();
+	private Map<InputKey, Consumer<InputEvent>> controlMap = new HashMap<>();
 
 	public Bike(int player, Controller controller) {
 		this.player = player;
@@ -44,14 +44,16 @@ public class Bike extends Actor {
 		this.position = position;
 	}
 
-	private Consumer<InputDetail> moveForward = e -> {
-		if(e.isInitial()) {
+	private Consumer<InputEvent> moveForward = e -> {
+		if(!e.isFired()) {
+			e.fire();
 			this.position.x += 10;
 		}
 	};
 
-	private Consumer<InputDetail> moveBackward = e -> {
-		if(e.isInitial()) {
+	private Consumer<InputEvent> moveBackward = e -> {
+		if(!e.isFired()) {
+			e.fire();
 			this.position.x -= 10;
 		}
 	};
@@ -67,7 +69,7 @@ public class Bike extends Actor {
 		shapeRenderer.rect(position.x, position.y, 50, 50);
 		shapeRenderer.end();
 
-		LightMain.INPUT_HANDLER.getPressMap().forEach((key, detail) ->
+		LightMain.INPUT_HANDLER.getInputMap().forEach((key, detail) ->
 				controlMap.getOrDefault(key, e -> logger.log(Level.FINEST, "Non bound key pressed"))
 						.accept(detail));
 	}

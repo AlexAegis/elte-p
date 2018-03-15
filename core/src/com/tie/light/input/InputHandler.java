@@ -17,23 +17,21 @@ public class InputHandler implements InputProcessor, ControllerListener {
 	private final Logger logger = Logger.getLogger(InputHandler.class.getName());
 
 	// Stores which key is currently being pressed and when it got pressed
-	private Map<InputKey, InputDetail> pressMap = new HashMap<>();
+	private Map<InputKey, InputEvent> inputMap = new HashMap<>();
 
 	// System input handling
 
 	@Override
 	public boolean keyDown(int keycode) {
-		Long l = System.currentTimeMillis();
-		logger.log(Level.INFO, "keyDown: " + keycode + ", " + Input.Keys.toString(keycode) + " System.currentTimeMillis(): " + l);
-		pressMap.put(new InputKey(keycode, null), new InputDetail( l));
-		System.out.println("pressMap.size(): " + pressMap.size());
+		logger.log(Level.INFO, "keyDown: " + keycode + ", " + Input.Keys.toString(keycode));
+		inputMap.put(new InputKey(keycode, null), new InputEvent(System.currentTimeMillis()));
 		return false;
 	}
 
 	@Override
 	public boolean keyUp(int keycode) {
 		logger.log(Level.INFO, "keyDown: " + keycode + ", " + Input.Keys.toString(keycode));
-		pressMap.remove(new InputKey(keycode, null));
+		inputMap.remove(new InputKey(keycode, null));
 		return false;
 	}
 
@@ -82,14 +80,14 @@ public class InputHandler implements InputProcessor, ControllerListener {
 	@Override
 	public boolean buttonDown(Controller controller, int buttonCode) {
 		logger.log(Level.FINER, controller + " buttonDown: " + buttonCode + ", ");
-		pressMap.put(new InputKey(buttonCode, controller), new InputDetail(System.currentTimeMillis()));
+		inputMap.put(new InputKey(buttonCode, controller), new InputEvent(System.currentTimeMillis()));
 		return false;
 	}
 
 	@Override
 	public boolean buttonUp(Controller controller, int buttonCode) {
 		logger.log(Level.FINER, controller + " buttonUp  : " + buttonCode + ", " );
-		pressMap.remove(new InputKey(buttonCode, controller));
+		inputMap.remove(new InputKey(buttonCode, controller));
 		return false;
 	}
 
@@ -120,12 +118,8 @@ public class InputHandler implements InputProcessor, ControllerListener {
 
 	// Getters and Setters
 
-
-	public Map<InputKey, InputDetail> getPressMap() {
-		return pressMap;
+	public Map<InputKey, InputEvent> getInputMap() {
+		return inputMap;
 	}
 
-	public void setPressMap(Map<InputKey, InputDetail> pressMap) {
-		this.pressMap = pressMap;
-	}
 }

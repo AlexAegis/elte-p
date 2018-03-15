@@ -1,15 +1,14 @@
 package com.tie.light.input;
 
 
-import com.badlogic.gdx.controllers.Controller;
-
 import java.util.Objects;
 
-public class InputDetail {
+public class InputEvent {
 
 	private Long time;
+	private Boolean fired = false;
 
-	public InputDetail(Long time) {
+	public InputEvent(Long time) {
 		this.time = time;
 	}
 
@@ -17,16 +16,20 @@ public class InputDetail {
 		return System.currentTimeMillis() - time;
 	}
 
-	public Boolean isInitial() {
-		return elapsedTime() <= 4;
+	public Boolean isFired() {
+		return fired;
+	}
+
+	public void fire() {
+		this.fired = true;
 	}
 
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
-		InputDetail inputDetail = (InputDetail) o;
-		return Objects.equals(time, inputDetail.time);
+		InputEvent inputEvent = (InputEvent) o;
+		return Objects.equals(time, inputEvent.time);
 	}
 
 	@Override
@@ -36,7 +39,7 @@ public class InputDetail {
 
 	@Override
 	public String toString() {
-		return "InputDetail{" +
+		return "InputEvent{" +
 				"time=" + time +
 				'}';
 	}
