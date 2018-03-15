@@ -1,5 +1,4 @@
 buildscript {
-    
 
     repositories {
         mavenLocal()
@@ -14,10 +13,10 @@ buildscript {
     }
 }
 
+
 allprojects {
     apply plugin: "eclipse"
     apply plugin: "idea"
-
     version = '1.0'
     ext {
         appName = "light"
@@ -34,11 +33,17 @@ allprojects {
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         maven { url "https://oss.sonatype.org/content/repositories/releases/" }
     }
+
+    tasks.withType(JavaCompile) {
+        sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
+    }
 }
 
 project(":desktop") {
     apply plugin: "java"
 
+    sourceCompatibility = 1.8
 
     dependencies {
         compile project(":core")
@@ -54,7 +59,7 @@ project(":desktop") {
 
 project(":android") {
     apply plugin: "android"
-
+    sourceCompatibility = 1.8
     configurations { natives }
 
     dependencies {
@@ -82,7 +87,7 @@ project(":android") {
 project(":ios") {
     apply plugin: "java"
     apply plugin: "robovm"
-
+    sourceCompatibility = 1.8
 
     dependencies {
         compile project(":core")
@@ -98,7 +103,7 @@ project(":ios") {
 project(":html") {
     apply plugin: "gwt"
     apply plugin: "war"
-
+    sourceCompatibility = 1.8
 
     dependencies {
         compile project(":core")

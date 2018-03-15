@@ -3,6 +3,8 @@ package com.tie.light.input;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -10,15 +12,19 @@ public class InputHandler implements InputProcessor {
 
 	private final Logger logger = Logger.getLogger(InputHandler.class.getName());
 
+	// Stores which key is currently being pressed and when it got pressed
+	private Map<Integer, Long> pressMap = new HashMap<>();
+
 	@Override
 	public boolean keyDown(int keycode) {
-		logger.log(Level.INFO, "keyDown: " + keycode + ", " + Input.Keys.toString(keycode));
-
+		logger.log(Level.INFO, "OG keyDown: " + keycode + ", " + Input.Keys.toString(keycode));
+		pressMap.put(keycode, System.currentTimeMillis());
 		return false;
 	}
 
 	@Override
 	public boolean keyUp(int keycode) {
+		pressMap.remove(keycode);
 		return false;
 	}
 
@@ -52,4 +58,11 @@ public class InputHandler implements InputProcessor {
 		return false;
 	}
 
+	public Map<Integer, Long> getPressMap() {
+		return pressMap;
+	}
+
+	public void setPressMap(Map<Integer, Long> pressMap) {
+		this.pressMap = pressMap;
+	}
 }

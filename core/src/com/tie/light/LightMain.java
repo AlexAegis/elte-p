@@ -3,7 +3,6 @@ package com.tie.light;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
@@ -22,15 +21,16 @@ public class LightMain extends ApplicationAdapter {
 	private final static String CONFIG_FILE_NAME = "config.properties";
 	private final static String CONFIG_LOGGING_LEVEL = "loggingLevel";
 
-	private final static Properties properties = new Properties();
+	private final static Properties PROPERTIES = new Properties();
 
-	private InputHandler inputHandler = new InputHandler();
+	public final static InputHandler INPUT_HANDLER = new InputHandler();
 
 	@Parameter(names = {"--loggingLevel", "--logLevel", "-log"})
 	private String loggingLevel;
 
 	SpriteBatch batch;
-	Texture img;
+
+	Bike bike;
 
 	public LightMain(String[] arg) {
 		JCommander.newBuilder()
@@ -40,38 +40,42 @@ public class LightMain extends ApplicationAdapter {
 	}
 
 	@Override
-	public void create () {
+	public void create() {
 		loadConfig();
 		applyConfig();
-		Gdx.input.setInputProcessor(inputHandler);
+		Gdx.input.setInputProcessor(INPUT_HANDLER);
 
 		batch = new SpriteBatch();
-		img = new Texture("badlogic.jpg");
+		bike = new Bike(0);
 	}
 
 	@Override
-	public void render () {
-		Gdx.gl.glClearColor(1, 0, 0, 1);
+	public void render() {
+		Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
-		batch.draw(img, 0, 0);
+
+		//batch.setProjectionMatrix(new Matrix4(new Quaternion(10,0,0,100) ));
+
+		bike.draw(batch, 1);
+
 		batch.end();
 	}
 	
 	@Override
 	public void dispose () {
-		batch.dispose();
-		img.dispose();
+		//batch.dispose();
+		//img.dispose();
 	}
 
 	private void loadConfig() {
 		try {
 			// load default config
-			properties.load(Gdx.files.internal(CONFIG_FILE_NAME).read());
+			PROPERTIES.load(Gdx.files.internal(CONFIG_FILE_NAME).read());
 
 			// overwrite default config with command line arguments
 			if(loggingLevel != null) {
-				properties.setProperty(CONFIG_LOGGING_LEVEL, loggingLevel);
+				PROPERTIES.setProperty(CONFIG_LOGGING_LEVEL, loggingLevel);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -79,7 +83,7 @@ public class LightMain extends ApplicationAdapter {
 	}
 
 	private void applyConfig() {
-		Level level = Level.parse(properties.getProperty(CONFIG_LOGGING_LEVEL));
+		Level level = Level.parse(PROPERTIES.getProperty(CONFIG_LOGGING_LEVEL));
 		LOGGER_ROOT.setLevel(level);
 		for (Handler h : LOGGER_ROOT.getHandlers()) {
 			h.setLevel(level);
