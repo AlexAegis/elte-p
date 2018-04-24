@@ -15,13 +15,16 @@ import com.tie.light.input.InputEvent;
 import com.tie.light.input.InputKey;
 import com.tie.light.logic.Collider;
 import com.tie.light.logic.Controllable;
+import com.tie.light.logic.Walldragger;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+@Walldragger
 public class Bike extends Entity implements Collider, Controllable {
 
 	private final Logger logger = Logger.getLogger(Bike.class.getName());
@@ -36,7 +39,7 @@ public class Bike extends Entity implements Collider, Controllable {
 
 	private PolygonSprite poly;
 
-	private Texture textureSolid;
+
 
 	public Bike(int player, Controller controller) {
 		this.player = player;
@@ -114,13 +117,11 @@ public class Bike extends Entity implements Collider, Controllable {
 	public void draw(Batch batch, float parentAlpha) {
 		Color color = getColor();
 		batch.setColor(color.r, color.g, color.b, color.a * parentAlpha);
-
 		//moveForward.accept(CONTINUOUS_INPUT_EVENT);
 		polyBatch.begin();
 		poly.draw(polyBatch);
 		polyBatch.end();
 		poly.setPosition(position.x, position.y);
-
 		handleInput();
 	}
 

@@ -9,6 +9,8 @@ import com.tie.light.LightMain;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+		config.width = 3400;
+		config.height = 1600;
 		new LwjglApplication(new LightMain(arg), config);
 	}
 }
