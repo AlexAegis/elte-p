@@ -1,8 +1,5 @@
 package com.tie.light.input;
 
-
-import com.sun.org.apache.xpath.internal.operations.Bool;
-
 import java.util.Objects;
 
 public class InputEvent {
