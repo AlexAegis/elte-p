@@ -37,10 +37,6 @@ public class Bike extends Entity implements Collider, Controllable {
 	private static final Float UNIT_ROTATION = 9f;
 	private static final Float UNIT_SPEED = 10f;
 
-	private PolygonSprite poly;
-
-
-
 	public Bike(int player, Controller controller) {
 		this.player = player;
 
@@ -50,23 +46,8 @@ public class Bike extends Entity implements Collider, Controllable {
 
 		this.dir = 0f;
 
-		Pixmap pix = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
-		pix.setColor(0x0010DEAD);
-		pix.fill();
-		textureSolid = new Texture(pix);
-		PolygonRegion polyReg = new PolygonRegion(new TextureRegion(textureSolid),
-				new float[]{                     // Four vertices
-						0, 0,                    // Vertex 0         3--2
-						getHeight(), 0,          // Vertex 1         | /|
-						getHeight(), getWidth(), // Vertex 2         |/ |
-						0, getWidth()            // Vertex 3         0--1
-				}, new short[]{
-				0, 1, 2,         // Two triangles using vertex indices.
-				0, 2, 3          // Take care of the counter-clockwise direction.
-		});
-		poly = new PolygonSprite(polyReg);
-		poly.setOrigin(getHeight() / 2, getWidth() / 2);
-		polyBatch = new PolygonSpriteBatch();
+		poly = createRectanglePolygon(getWidth(), getHeight());
+
 
 
 		direction = new Vector2(1, 0);
