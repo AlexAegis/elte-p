@@ -16,9 +16,13 @@ public class InputEvent {
 	}
 
 	public Boolean fire() {
+		return fire(false);
+	}
+
+	public Boolean fire(Boolean continuous) {
 		Boolean result = fired;
 		fired = true;
-		return !result;
+		return continuous || !result;
 	}
 
 	@Override
