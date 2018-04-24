@@ -32,19 +32,19 @@ public class Bike extends Entity implements Collider, Controllable {
 	private int player;
 
 	private Float speed;
-	private Float dir;
+	private Float dir = 0f;
 
 	private static final Float UNIT_ROTATION = 9f;
 	private static final Float UNIT_SPEED = 10f;
 
+	private Wall wall;
+
 	public Bike(int player, Controller controller) {
 		this.player = player;
-
 		setWidth(10);
 		setHeight(20);
-		position = new Vector2(50f, 40f);
 
-		this.dir = 0f;
+		position = new Vector2(50f, 40f);
 
 		poly = createRectanglePolygon(getWidth(), getHeight());
 
@@ -57,12 +57,17 @@ public class Bike extends Entity implements Collider, Controllable {
 		controlMap.put(new InputKey(Input.Keys.S, controller), moveBackward);
 		controlMap.put(new InputKey(Input.Keys.A, controller), rotateLeft);
 		controlMap.put(new InputKey(Input.Keys.D, controller), rotateRight);
+		controlMap.put(new InputKey(Input.Keys.SPACE, controller), spawnWall);
 
-		//controlMap.put(new InputKey(Xbox.DPAD_UP, controller), moveForward);
-		//controlMap.put(new InputKey(Xbox.DPAD_DOWN, controller), moveBackward);
-		//controlMap.put(new InputKey(Xbox.DPAD_LEFT, controller), rotateLeft);
-		//controlMap.put(new InputKey(Xbox.DPAD_RIGHT, controller), rotateRight);
+		wall = new Wall(new Vector2(position), position);
 	}
+
+	private Consumer<InputEvent> spawnWall = e -> {
+		if (e.fire()) {
+			logger.info("AAAAAAAAAAAAAAAAAAA");
+			wall.spawnWall(position);
+		}
+	};
 
 	private Consumer<InputEvent> moveForward = e -> {
 		if (e.fire(true)) {
@@ -99,10 +104,12 @@ public class Bike extends Entity implements Collider, Controllable {
 		Color color = getColor();
 		batch.setColor(color.r, color.g, color.b, color.a * parentAlpha);
 		//moveForward.accept(CONTINUOUS_INPUT_EVENT);
+		wall.draw(batch, parentAlpha);
 		polyBatch.begin();
 		poly.draw(polyBatch);
-		polyBatch.end();
 		poly.setPosition(position.x, position.y);
+
+		polyBatch.end();
 		handleInput();
 	}
 

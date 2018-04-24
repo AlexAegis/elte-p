@@ -23,14 +23,14 @@ public class InputHandler implements InputProcessor, ControllerListener {
 
 	@Override
 	public boolean keyDown(int keycode) {
-		logger.log(Level.INFO, "keyDown: " + keycode + ", " + Input.Keys.toString(keycode));
+		//logger.log(Level.INFO, "keyDown: " + keycode + ", " + Input.Keys.toString(keycode));
 		inputMap.put(new InputKey(keycode, null), new InputEvent(System.currentTimeMillis()));
 		return false;
 	}
 
 	@Override
 	public boolean keyUp(int keycode) {
-		logger.log(Level.INFO, "keyDown: " + keycode + ", " + Input.Keys.toString(keycode));
+		//logger.log(Level.INFO, "keyDown: " + keycode + ", " + Input.Keys.toString(keycode));
 		inputMap.remove(new InputKey(keycode, null));
 		return false;
 	}
@@ -79,14 +79,14 @@ public class InputHandler implements InputProcessor, ControllerListener {
 
 	@Override
 	public boolean buttonDown(Controller controller, int buttonCode) {
-		logger.log(Level.FINER, controller + " buttonDown: " + buttonCode + ", ");
+		//logger.log(Level.FINER, controller + " buttonDown: " + buttonCode + ", ");
 		inputMap.put(new InputKey(buttonCode, controller), new InputEvent(System.currentTimeMillis()));
 		return false;
 	}
 
 	@Override
 	public boolean buttonUp(Controller controller, int buttonCode) {
-		logger.log(Level.FINER, controller + " buttonUp  : " + buttonCode + ", " );
+		//logger.log(Level.FINER, controller + " buttonUp  : " + buttonCode + ", " );
 		inputMap.remove(new InputKey(buttonCode, controller));
 		return false;
 	}

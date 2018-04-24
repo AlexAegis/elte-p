@@ -15,12 +15,14 @@ public class Wall extends Entity implements Collider {
 
 	private final Logger logger = Logger.getLogger(Wall.class.getName());
 
+	private Wall next;
+
 	public Wall(Vector2 from, Vector2 to) {
 		polyBatch = new PolygonSpriteBatch();
 
 		position = from;
 		direction = to;
-		setWidth(40);
+		setWidth(4);
 
 		poly = createRectanglePolygon(getWidth(), getHeight());
 		poly.setPosition(position.x, position.y);
@@ -39,6 +41,17 @@ public class Wall extends Entity implements Collider {
 		polyBatch.begin();
 		poly.draw(polyBatch);
 		polyBatch.end();
+		if(next != null) {
+			next.draw(batch, parentAlpha);
+		}
 	}
 
+	public void spawnWall(Vector2 direction) {
+		if(this.next == null) {
+			this.direction = new Vector2(this.direction);
+			this.next = new Wall(new Vector2(direction), direction);
+		} else {
+			this.next.spawnWall(direction);
+		}
+	}
 }

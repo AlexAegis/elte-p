@@ -56,13 +56,13 @@ public class LightMain extends ApplicationAdapter {
 
 
 		int i = 0;
-		//bikes.add(new Bike(i, null));
+		bikes.add(new Bike(i, null));
 		for (Controller controller : Controllers.getControllers()) {
 			i++;
 			controller.addListener(INPUT_HANDLER);
 			bikes.add(new com.tie.light.entities.Bike(i, controller));
 		}
-		northernWall = new Wall(new Vector2(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2), new Vector2(800, 200));
+		//northernWall = new Wall(new Vector2(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2), new Vector2(800, 200));
 
 		batch = new SpriteBatch();
 
@@ -74,9 +74,9 @@ public class LightMain extends ApplicationAdapter {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
 
-		northernWall.getDirection().set(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY());
+		//northernWall.getDirection().set(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY());
 		//batch.setProjectionMatrix(new Matrix4(new Quaternion(10,0,0,100) ));
-		northernWall.draw(batch, 1);
+		//northernWall.draw(batch, 1);
 		for (Bike bike : bikes) {
 			bike.draw(batch, 1);
 		}

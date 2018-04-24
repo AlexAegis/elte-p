@@ -24,7 +24,7 @@ public abstract class Entity extends Actor {
 
 	protected Vector2 position;
 	protected Vector2 direction;
-	protected PolygonSpriteBatch polyBatch;
+	protected PolygonSpriteBatch polyBatch = new PolygonSpriteBatch();
 	protected PolygonSprite poly;
 
 	public Double distance(Vector2 object1, Vector2 object2) {
