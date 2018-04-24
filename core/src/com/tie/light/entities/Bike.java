@@ -1,10 +1,14 @@
 package com.tie.light.entities;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.controllers.Controller;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.math.Quaternion;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.tie.light.LightMain;
@@ -23,39 +27,54 @@ public class Bike extends Actor {
 
 	private ShapeRenderer shapeRenderer;
 
-	private Vector3 position = new Vector3();
-
 	private int player;
+	private Vector3 direction;
+	private Double speed;
+	private Rectangle body;
 
 	private Map<InputKey, Consumer<InputEvent>> controlMap = new HashMap<>();
 
 	public Bike(int player, Controller controller) {
-		this.player = player;
+		player = player;
+
+		direction = new Vector3(1, 0,0);
+		speed = 5.0d;
+
+		body = new Rectangle(40f, 40f, 5f, 10f);
 
 		controlMap.put(new InputKey(Input.Keys.W, controller), moveForward);
 		controlMap.put(new InputKey(Input.Keys.S, controller), moveBackward);
+		controlMap.put(new InputKey(Input.Keys.A, controller), rotateLeft);
+		controlMap.put(new InputKey(Input.Keys.D, controller), rotateRight);
 		controlMap.put(new InputKey(0, controller), moveForward);
 
 		shapeRenderer = new ShapeRenderer();
-	}
 
-	public Bike(int player, Controller controller, Vector3 position) {
-		this(player, controller);
-		this.position = position;
 	}
 
 	private Consumer<InputEvent> moveForward = e -> {
-		if(!e.isFired()) {
-			e.fire();
-			this.position.x += 10;
-		}
+		//if(e.fire()) {
+			this.body.x += direction.x * speed;
+			this.body.y += direction.y * speed;
+		System.out.println(direction);
+		//}
 	};
 
 	private Consumer<InputEvent> moveBackward = e -> {
-		if(!e.isFired()) {
-			e.fire();
-			this.position.x -= 10;
+		if(e.fire()) {
+			this.body.x -= 10;
 		}
+	};
+
+	private Consumer<InputEvent> rotateLeft = inputEvent -> {
+		direction = direction.rotate(Vector3.Z, 10);
+		//shapeRenderer.rotate(0, 0, 0, 10);
+	};
+
+	private Consumer<InputEvent> rotateRight = inputEvent -> {
+		direction = direction.rotate(Vector3.Z, -10);
+		//shapeRenderer.getTransformMatrix().rotate(position.x, 0, 0, -10);
+
 	};
 
 	@Override
@@ -66,7 +85,7 @@ public class Bike extends Actor {
 		shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 		shapeRenderer.setColor(Color.RED);
 		shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
-		shapeRenderer.rect(position.x, position.y, 50, 50);
+		shapeRenderer.rect(body.x, body.y, 50, 10);
 		shapeRenderer.end();
 
 		LightMain.INPUT_HANDLER.getInputMap().forEach((key, detail) ->

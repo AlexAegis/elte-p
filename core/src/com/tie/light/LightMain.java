@@ -51,7 +51,7 @@ public class LightMain extends ApplicationAdapter {
 		Gdx.input.setInputProcessor(INPUT_HANDLER);
 
 		int i = 0;
-		bikes.add(new com.tie.light.entities.Bike(i, null));
+		bikes.add(new Bike(i, null));
 		for (Controller controller : Controllers.getControllers()) {
 			i++;
 			controller.addListener(INPUT_HANDLER);

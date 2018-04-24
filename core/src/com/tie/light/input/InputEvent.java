@@ -1,6 +1,8 @@
 package com.tie.light.input;
 
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
+
 import java.util.Objects;
 
 public class InputEvent {
@@ -16,12 +18,10 @@ public class InputEvent {
 		return System.currentTimeMillis() - time;
 	}
 
-	public Boolean isFired() {
-		return fired;
-	}
-
-	public void fire() {
-		this.fired = true;
+	public Boolean fire() {
+		Boolean result = fired;
+		fired = true;
+		return !result;
 	}
 
 	@Override
