@@ -22,7 +22,7 @@ public class Wall extends Entity implements Collider {
 
 		position = from;
 		direction = to;
-		setWidth(4);
+		setWidth(8);
 
 		poly = createRectanglePolygon(getWidth(), getHeight());
 		poly.setPosition(position.x, position.y);

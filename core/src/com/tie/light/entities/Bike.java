@@ -57,17 +57,9 @@ public class Bike extends Entity implements Collider, Controllable {
 		controlMap.put(new InputKey(Input.Keys.S, controller), moveBackward);
 		controlMap.put(new InputKey(Input.Keys.A, controller), rotateLeft);
 		controlMap.put(new InputKey(Input.Keys.D, controller), rotateRight);
-		controlMap.put(new InputKey(Input.Keys.SPACE, controller), spawnWall);
 
 		wall = new Wall(new Vector2(position), position);
 	}
-
-	private Consumer<InputEvent> spawnWall = e -> {
-		if (e.fire()) {
-			logger.info("AAAAAAAAAAAAAAAAAAA");
-			wall.spawnWall(position);
-		}
-	};
 
 	private Consumer<InputEvent> moveForward = e -> {
 		if (e.fire(true)) {
@@ -88,6 +80,7 @@ public class Bike extends Entity implements Collider, Controllable {
 			direction = direction.rotate(UNIT_ROTATION);
 			dir = (dir + UNIT_ROTATION) % 360;
 			poly.setRotation(dir);
+			wall.spawnWall(position);
 		}
 	};
 
@@ -96,6 +89,7 @@ public class Bike extends Entity implements Collider, Controllable {
 			direction = direction.rotate(-UNIT_ROTATION);
 			dir = (dir - UNIT_ROTATION) % 360;
 			poly.setRotation(dir);
+			wall.spawnWall(position);
 		}
 	};
 
