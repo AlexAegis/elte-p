@@ -46,6 +46,7 @@ public abstract class Entity extends Actor {
 				0, 1, 2,         // Two triangles using vertex indices.
 				0, 2, 3          // Take care of the counter-clockwise direction.
 		});
+
 		return new PolygonSprite(polyReg);
 	}
 

@@ -34,7 +34,7 @@ public class Bike extends Entity implements Collider, Controllable {
 	private Float speed;
 	private Float dir = 0f;
 
-	private static final Float UNIT_ROTATION = 9f;
+	private static final Float UNIT_ROTATION = 5f;
 	private static final Float UNIT_SPEED = 10f;
 
 	private Wall wall;
@@ -53,10 +53,17 @@ public class Bike extends Entity implements Collider, Controllable {
 		direction = new Vector2(1, 0);
 		speed = UNIT_SPEED;
 
-		controlMap.put(new InputKey(Input.Keys.W, controller), moveForward);
-		controlMap.put(new InputKey(Input.Keys.S, controller), moveBackward);
-		controlMap.put(new InputKey(Input.Keys.A, controller), rotateLeft);
-		controlMap.put(new InputKey(Input.Keys.D, controller), rotateRight);
+		if(player == 0) {
+			controlMap.put(new InputKey(Input.Keys.W, controller), moveForward);
+			controlMap.put(new InputKey(Input.Keys.S, controller), moveBackward);
+			controlMap.put(new InputKey(Input.Keys.A, controller), rotateLeft);
+			controlMap.put(new InputKey(Input.Keys.D, controller), rotateRight);
+		} else {
+			controlMap.put(new InputKey(Input.Keys.UP, controller), moveForward);
+			controlMap.put(new InputKey(Input.Keys.DOWN, controller), moveBackward);
+			controlMap.put(new InputKey(Input.Keys.LEFT, controller), rotateLeft);
+			controlMap.put(new InputKey(Input.Keys.RIGHT, controller), rotateRight);
+		}
 
 		wall = new Wall(new Vector2(position), position);
 	}

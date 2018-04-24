@@ -57,6 +57,9 @@ public class LightMain extends ApplicationAdapter {
 
 		int i = 0;
 		bikes.add(new Bike(i, null));
+
+		i++;
+		bikes.add(new Bike(i, null));
 		for (Controller controller : Controllers.getControllers()) {
 			i++;
 			controller.addListener(INPUT_HANDLER);

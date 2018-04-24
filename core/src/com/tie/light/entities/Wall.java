@@ -9,6 +9,9 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.tie.light.logic.Collider;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Logger;
 
 public class Wall extends Entity implements Collider {
@@ -47,6 +50,17 @@ public class Wall extends Entity implements Collider {
 	}
 
 	public void spawnWall(Vector2 direction) {
+
+/*
+
+		poly.setRegion(new PolygonRegion(
+				poly.getRegion().getRegion(),
+				Arrays.copyOf(poly.getRegion().getVertices(), poly.getRegion().getVertices().length + 2)
+			,   Arrays.copyOf(poly.getRegion().getTriangles(), poly.getRegion().getTriangles().length + 6)));
+
+		int vnl = poly.getRegion().getVertices().length;
+		poly.getRegion().getVertices()[vnl - 1] = direction.x;*/
+
 		if(this.next == null) {
 			this.direction = new Vector2(this.direction);
 			this.next = new Wall(new Vector2(direction), direction);
