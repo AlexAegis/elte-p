@@ -83,20 +83,17 @@ public class Bike extends Entity implements Collider, Controllable {
 	};
 
 	private Consumer<InputEvent> rotateLeft = e -> {
-		if (e.fire(true)) {
+		if (e.fire(20L, (a) -> wall.spawnWall(position))) {
 			direction = direction.rotate(UNIT_ROTATION);
 			dir = (dir + UNIT_ROTATION) % 360;
 			poly.setRotation(dir);
-			wall.spawnWall(position);
 		}
 	};
-
 	private Consumer<InputEvent> rotateRight = e -> {
-		if (e.fire(true)) {
+		if (e.fire(20L, (a) -> wall.spawnWall(position))) {
 			direction = direction.rotate(-UNIT_ROTATION);
 			dir = (dir - UNIT_ROTATION) % 360;
 			poly.setRotation(dir);
-			wall.spawnWall(position);
 		}
 	};
 
@@ -105,11 +102,10 @@ public class Bike extends Entity implements Collider, Controllable {
 		Color color = getColor();
 		batch.setColor(color.r, color.g, color.b, color.a * parentAlpha);
 		//moveForward.accept(CONTINUOUS_INPUT_EVENT);
-		wall.draw(batch, parentAlpha);
 		polyBatch.begin();
+		wall.draw(polyBatch, parentAlpha);
 		poly.draw(polyBatch);
 		poly.setPosition(position.x, position.y);
-
 		polyBatch.end();
 		handleInput();
 	}

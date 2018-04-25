@@ -21,7 +21,6 @@ public class Wall extends Entity implements Collider {
 	private Wall next;
 
 	public Wall(Vector2 from, Vector2 to) {
-		polyBatch = new PolygonSpriteBatch();
 
 		position = from;
 		direction = to;
@@ -41,9 +40,7 @@ public class Wall extends Entity implements Collider {
 		poly.getRegion().getVertices()[2] = getHeight();
 		poly.getRegion().getVertices()[4] = getHeight();
 
-		polyBatch.begin();
-		poly.draw(polyBatch);
-		polyBatch.end();
+		poly.draw((PolygonSpriteBatch) batch);
 		if(next != null) {
 			next.draw(batch, parentAlpha);
 		}

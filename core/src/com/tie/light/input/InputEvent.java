@@ -1,11 +1,13 @@
 package com.tie.light.input;
 
 import java.util.Objects;
+import java.util.function.Consumer;
 
 public class InputEvent {
 
 	private Long time;
 	private Boolean fired = false;
+	private Integer fireCount = 0;
 
 	public InputEvent(Long time) {
 		this.time = time;
@@ -23,6 +25,15 @@ public class InputEvent {
 		Boolean result = fired;
 		fired = true;
 		return continuous || !result;
+	}
+
+	public Boolean fire(Long timer, Consumer<Integer> consumer) {
+		if (elapsedTime() / timer >= fireCount) {
+			consumer.accept(fireCount);
+			fireCount++;
+		}
+		fired = true;
+		return fired;
 	}
 
 	@Override
