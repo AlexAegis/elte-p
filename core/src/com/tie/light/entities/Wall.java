@@ -21,13 +21,16 @@ public class Wall extends Entity implements Collider {
 	private Wall next;
 
 	public Wall(Vector2 from, Vector2 to) {
-
 		position = from;
 		direction = to;
 		setWidth(8);
-
 		poly = createRectanglePolygon(getWidth(), getHeight());
 		poly.setPosition(position.x, position.y);
+	}
+
+	public Wall(Vector2 from, Vector2 to, Wall next) {
+		this(from, to);
+		this.next = next;
 	}
 
 	@Override
@@ -46,23 +49,8 @@ public class Wall extends Entity implements Collider {
 		}
 	}
 
-	public void spawnWall(Vector2 direction) {
-
-/*
-
-		poly.setRegion(new PolygonRegion(
-				poly.getRegion().getRegion(),
-				Arrays.copyOf(poly.getRegion().getVertices(), poly.getRegion().getVertices().length + 2)
-			,   Arrays.copyOf(poly.getRegion().getTriangles(), poly.getRegion().getTriangles().length + 6)));
-
-		int vnl = poly.getRegion().getVertices().length;
-		poly.getRegion().getVertices()[vnl - 1] = direction.x;*/
-
-		if(this.next == null) {
-			this.direction = new Vector2(this.direction);
-			this.next = new Wall(new Vector2(direction), direction);
-		} else {
-			this.next.spawnWall(direction);
-		}
+	public Wall spawnWall(Vector2 position) {
+		this.direction = new Vector2(direction);
+		return new Wall(new Vector2(position), position, this);
 	}
 }

@@ -83,14 +83,14 @@ public class Bike extends Entity implements Collider, Controllable {
 	};
 
 	private Consumer<InputEvent> rotateLeft = e -> {
-		if (e.fire(20L, (a) -> wall.spawnWall(position))) {
+		if (e.fire(20L, (a) -> wall = wall.spawnWall(position))) {
 			direction = direction.rotate(UNIT_ROTATION);
 			dir = (dir + UNIT_ROTATION) % 360;
 			poly.setRotation(dir);
 		}
 	};
 	private Consumer<InputEvent> rotateRight = e -> {
-		if (e.fire(20L, (a) -> wall.spawnWall(position))) {
+		if (e.fire(20L, (a) -> wall = wall.spawnWall(position))) {
 			direction = direction.rotate(-UNIT_ROTATION);
 			dir = (dir - UNIT_ROTATION) % 360;
 			poly.setRotation(dir);
