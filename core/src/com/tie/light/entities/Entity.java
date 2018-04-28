@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.tie.light.input.InputEvent;
 import com.tie.light.input.InputKey;
 
+import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -26,14 +27,20 @@ public abstract class Entity extends Actor {
 	protected Vector2 direction;
 	protected Vector2 destination;
 	protected PolygonSprite poly;
+	protected static final String defaultColor = "0x0010DEAD";
+	protected int color;
 
 	public Double distance(Vector2 object1, Vector2 object2) {
 		return Math.sqrt(Math.pow((object2.x - object1.x), 2) + Math.pow((object2.y - object1.y), 2));
 	}
 
-	public static PolygonSprite createRectanglePolygon(Float width, Float height) {
+	public static PolygonSprite createRectanglePolygon(Float width, Float height, String color) {
 		Pixmap pix = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
-		pix.setColor(0x0010DEAD);
+		if(color != null) {
+			pix.setColor(Integer.decode(color));
+		} else {
+			pix.setColor(Integer.decode(defaultColor));
+		}
 		pix.fill();
 		Texture textureSolid = new Texture(pix);
 		PolygonRegion polyReg = new PolygonRegion(new TextureRegion(textureSolid),

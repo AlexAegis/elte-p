@@ -22,17 +22,19 @@ public class Wall extends Entity implements Collider {
 	private final Logger logger = Logger.getLogger(Wall.class.getName());
 
 	private Wall next;
+	private String colorStr;
 
-	public Wall(Vector2 from, Vector2 to) {
+	public Wall(Vector2 from, Vector2 to, String colorStr) {
+		this.colorStr = colorStr;
 		position = from;
 		direction = to;
 		setWidth(8);
-		poly = createRectanglePolygon(getWidth(), getHeight());
+		poly = createRectanglePolygon(getWidth(), getHeight(), colorStr);
 		poly.setPosition(position.x, position.y);
 	}
 
-	public Wall(Vector2 from, Vector2 to, Wall next) {
-		this(from, to);
+	public Wall(Vector2 from, Vector2 to, Wall next, String color) {
+		this(from, to, color);
 		this.next = next;
 	}
 
@@ -58,7 +60,7 @@ public class Wall extends Entity implements Collider {
 
 	public Wall spawnWall(Vector2 position) {
 		this.direction = new Vector2(direction);
-		return new Wall(new Vector2(position), position, this);
+		return new Wall(new Vector2(position), position, this, colorStr);
 	}
 
 	public Stream<Bike> overlaps() {

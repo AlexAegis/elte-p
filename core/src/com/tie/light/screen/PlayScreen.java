@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.tie.light.LightMain;
 import com.tie.light.entities.Bike;
 import com.tie.light.entities.Wall;
 
@@ -40,20 +41,28 @@ public class PlayScreen implements Screen {
 
 
 		int i = 0;
-		bikes.add(new Bike(i, null));
+		bikes.add(new Bike(i, null, LightMain.PROPERTIES.getProperty("p1.color")));
 
 		i++;
 		//bikes.add(new Bike(i, null));
 		for (Controller controller : Controllers.getControllers()) {
 			i++;
 			controller.addListener(INPUT_HANDLER);
-			bikes.add(new com.tie.light.entities.Bike(i, controller));
+			bikes.add(new com.tie.light.entities.Bike(i, controller, null));
 		}
 
-		northernWall = new Wall(new Vector2(0, Gdx.graphics.getHeight()), new Vector2(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
-		southernWall = new Wall(new Vector2(0, 0), new Vector2(Gdx.graphics.getWidth(), 0));
-		westernWall = new Wall(new Vector2(0, 0), new Vector2(0, Gdx.graphics.getHeight()));
-		easternWall = new Wall(new Vector2(Gdx.graphics.getWidth(), 0), new Vector2(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+		northernWall = new Wall(new Vector2(0, Gdx.graphics.getHeight()),
+				new Vector2(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()),
+				LightMain.PROPERTIES.getProperty("edge.color"));
+		southernWall = new Wall(new Vector2(0, 0),
+				new Vector2(Gdx.graphics.getWidth(), 0),
+				LightMain.PROPERTIES.getProperty("edge.color"));
+		westernWall = new Wall(new Vector2(0, 0),
+				new Vector2(0, Gdx.graphics.getHeight()),
+				LightMain.PROPERTIES.getProperty("edge.color"));
+		easternWall = new Wall(new Vector2(Gdx.graphics.getWidth(), 0),
+				new Vector2(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()),
+				LightMain.PROPERTIES.getProperty("edge.color"));
 
 		batch = new SpriteBatch();
 		polygonSpriteBatch = new PolygonSpriteBatch();

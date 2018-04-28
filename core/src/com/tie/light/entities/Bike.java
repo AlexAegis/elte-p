@@ -37,7 +37,7 @@ public class Bike extends Entity implements Collider, Controllable {
 	private InputKey left;
 	private InputKey right;
 
-	public Bike(int player, Controller controller) {
+	public Bike(int player, Controller controller, String color) {
 		this.player = player;
 		setWidth(10);
 		setHeight(20);
@@ -45,7 +45,7 @@ public class Bike extends Entity implements Collider, Controllable {
 		position = new Vector2(50f, 40f);
 		destination = new Vector2(50f, 40f);
 
-		poly = createRectanglePolygon(getWidth(), getHeight());
+		poly = createRectanglePolygon(getWidth(), getHeight(), color == null ? defaultColor : color);
 
 		direction = new Vector2(1, 0);
 		speed = UNIT_SPEED;
@@ -64,7 +64,7 @@ public class Bike extends Entity implements Collider, Controllable {
 			controlMap.put(new InputKey(Input.Keys.RIGHT, controller), rotateRight);
 		}
 
-		wall = new Wall(new Vector2(position), position);
+		wall = new Wall(new Vector2(position), position, color);
 	}
 
 	private Consumer<InputEvent> moveForward = e -> {

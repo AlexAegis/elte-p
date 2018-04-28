@@ -30,7 +30,7 @@ public class LightMain extends Game {
 	private final static String CONFIG_FILE_NAME = "config.properties";
 	private final static String CONFIG_LOGGING_LEVEL = "loggingLevel";
 
-	private final static Properties PROPERTIES = new Properties();
+	public final static Properties PROPERTIES = new Properties();
 
 	public final static InputHandler INPUT_HANDLER = new InputHandler();
 
