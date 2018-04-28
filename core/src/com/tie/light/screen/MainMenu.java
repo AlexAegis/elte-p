@@ -57,7 +57,7 @@ public class MainMenu implements Screen {
         //Create buttons
         TextButton playButton = new TextButton("Play", skin);
         AtomicInteger playerCount = new AtomicInteger(1);
-        Slider slider = new Slider(1, 8, 1, false, skin);
+        Slider slider = new Slider(1, 4, 1, false, skin);
         slider.addListener((Event event) -> { playerCount.set((int) slider.getValue()); return false; });
         TextButton exitButton = new TextButton("Exit", skin);
 

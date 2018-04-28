@@ -1,6 +1,5 @@
 package com.tie.light.entities;
 
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.controllers.Controller;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -17,12 +16,14 @@ import com.tie.light.screen.PlayScreen;
 import java.util.function.Consumer;
 import java.util.logging.Logger;
 
+import static com.tie.light.LightMain.PROPERTIES;
+
 @Walldragger
 public class Bike extends Entity implements Collider, Controllable {
 
 	private final Logger logger = Logger.getLogger(Bike.class.getName());
 
-	private int player;
+	private String player;
 
 	private Float speed;
 	private Float dir = 0f;
@@ -37,7 +38,7 @@ public class Bike extends Entity implements Collider, Controllable {
 	private InputKey left;
 	private InputKey right;
 
-	public Bike(int player, Controller controller) {
+	public Bike(String player, Controller controller) {
 		this.player = player;
 		setWidth(10);
 		setHeight(20);
@@ -50,19 +51,9 @@ public class Bike extends Entity implements Collider, Controllable {
 		direction = new Vector2(1, 0);
 		speed = UNIT_SPEED;
 
-		if(player == 0) {
-			left = new InputKey(Input.Keys.A, controller);
-			right = new InputKey(Input.Keys.D, controller);
-			controlMap.put(new InputKey(Input.Keys.W, controller), moveForward);
-			controlMap.put(new InputKey(Input.Keys.S, controller), moveBackward);
-			controlMap.put(left, rotateLeft);
-			controlMap.put(right, rotateRight);
-		} else {
-			controlMap.put(new InputKey(Input.Keys.UP, controller), moveForward);
-			controlMap.put(new InputKey(Input.Keys.DOWN, controller), moveBackward);
-			controlMap.put(new InputKey(Input.Keys.LEFT, controller), rotateLeft);
-			controlMap.put(new InputKey(Input.Keys.RIGHT, controller), rotateRight);
-		}
+		controlMap.put(new InputKey(Integer.valueOf(PROPERTIES.getProperty(player + ".forward")), controller), moveForward);
+		controlMap.put(new InputKey(Integer.valueOf(PROPERTIES.getProperty(player + ".right")), controller), rotateRight);
+		controlMap.put(new InputKey(Integer.valueOf(PROPERTIES.getProperty(player + ".left")), controller), rotateLeft);
 
 		wall = new Wall(new Vector2(position), position);
 	}

@@ -39,15 +39,17 @@ public class PlayScreen implements Screen {
 		Gdx.input.setInputProcessor(INPUT_HANDLER);
 
 
-		int i = 0;
-		bikes.add(new Bike(i, null));
+		int i;
+		for(i=1; i<playerCount+1; i++) {
+			bikes.add(new Bike("p"+i, null));
+		}
 
 		i++;
 		//bikes.add(new Bike(i, null));
 		for (Controller controller : Controllers.getControllers()) {
 			i++;
 			controller.addListener(INPUT_HANDLER);
-			bikes.add(new com.tie.light.entities.Bike(i, controller));
+			bikes.add(new com.tie.light.entities.Bike("p"+i, controller));
 		}
 
 		northernWall = new Wall(new Vector2(0, Gdx.graphics.getHeight()), new Vector2(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
