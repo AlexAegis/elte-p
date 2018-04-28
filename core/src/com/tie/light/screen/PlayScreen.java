@@ -24,12 +24,10 @@ public class PlayScreen implements Screen {
 	public static Set<Bike> bikes = new HashSet<>();
 	private int playerCount;
 
-
 	private Wall northernWall;
 	private Wall southernWall;
 	private Wall westernWall;
 	private Wall easternWall;
-
 
 	public PlayScreen(int playerCount) {
 		this.playerCount = playerCount;
