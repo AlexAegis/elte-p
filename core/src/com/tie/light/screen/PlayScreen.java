@@ -1,5 +1,6 @@
 package com.tie.light.screen;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -85,6 +86,9 @@ public class PlayScreen implements Screen {
 		polygonSpriteBatch.end();
 
 		bikes.removeAll(graveyard);
+		if(bikes.size() == 0) {
+			((Game)Gdx.app.getApplicationListener()).setScreen(new MainMenu());
+		}
 	}
 
 	@Override

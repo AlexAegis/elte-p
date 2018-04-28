@@ -131,7 +131,6 @@ public class Bike extends Entity implements Collider, Controllable {
 	}
 
 	public void kill() {
-		logger.info("KIIILLED");
 		PlayScreen.graveyard.add(this);
 	}
 
