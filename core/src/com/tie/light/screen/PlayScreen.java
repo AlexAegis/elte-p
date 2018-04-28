@@ -2,8 +2,6 @@ package com.tie.light.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.controllers.Controller;
-import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -23,6 +21,7 @@ public class PlayScreen implements Screen {
 	private PolygonSpriteBatch polygonSpriteBatch;
 
 	public static Set<Bike> bikes = new HashSet<>();
+	public static Set<Bike> graveyard = new HashSet<>();
 	private int playerCount;
 
 	private Wall northernWall;
@@ -40,17 +39,8 @@ public class PlayScreen implements Screen {
 		Gdx.input.setInputProcessor(INPUT_HANDLER);
 
 
-		int i;
-		for(i=1; i<playerCount+1; i++) {
-			bikes.add(new Bike("p"+i, null));
-		}
-
-		i++;
-		//bikes.add(new Bike(i, null));
-		for (Controller controller : Controllers.getControllers()) {
-			i++;
-			controller.addListener(INPUT_HANDLER);
-			bikes.add(new com.tie.light.entities.Bike("p"+i, controller));
+		for (int j = 1; j <= playerCount; j++) {
+			bikes.add(new Bike("p" + Integer.toString(j), null));
 		}
 
 		northernWall = new Wall(new Vector2(0, Gdx.graphics.getHeight()),
@@ -93,6 +83,8 @@ public class PlayScreen implements Screen {
 		westernWall.draw(polygonSpriteBatch, 1);
 		easternWall.draw(polygonSpriteBatch, 1);
 		polygonSpriteBatch.end();
+
+		bikes.removeAll(graveyard);
 	}
 
 	@Override

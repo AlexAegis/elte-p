@@ -24,6 +24,7 @@ public abstract class Entity extends Actor {
 	protected PolygonSprite poly;
 	protected static final String defaultColor = "0x0010DEAD";
 	protected int color;
+	protected String colorString;
 
 	public Double distance(Vector2 object1, Vector2 object2) {
 		return Math.sqrt(Math.pow((object2.x - object1.x), 2) + Math.pow((object2.y - object1.y), 2));

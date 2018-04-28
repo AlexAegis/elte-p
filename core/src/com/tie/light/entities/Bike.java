@@ -1,5 +1,7 @@
 package com.tie.light.entities;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.controllers.Controller;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -37,25 +39,47 @@ public class Bike extends Entity implements Collider, Controllable {
 
 	private InputKey left;
 	private InputKey right;
+	private InputKey forward;
+
+	private String name;
 
 	public Bike(String player, Controller controller) {
-		this.player = player;
+		this.name = player;
 		setWidth(10);
 		setHeight(20);
+		colorString = LightMain.PROPERTIES.getProperty(player + ".color");
 
-		position = new Vector2(50f, 40f);
-		destination = new Vector2(50f, 40f);
+		if(player.equals("p1")) {
+			position = new Vector2(50f, 40f);
+			destination = new Vector2(50f, 40f);
+			direction = new Vector2(1, 0);
+		} else if(player.equals("p2")) {
+			position = new Vector2(Gdx.graphics.getWidth() - 50f, 40f);
+			destination = new Vector2(Gdx.graphics.getWidth() - 50f, 40f);
+			direction = new Vector2(-1, 0);
+		} else if(player.equals("p3")) {
+			position = new Vector2(Gdx.graphics.getWidth() - 50f, Gdx.graphics.getHeight() - 40f);
+			destination = new Vector2(Gdx.graphics.getWidth() - 50f, Gdx.graphics.getHeight() - 40f);
+			direction = new Vector2(-1, 0);
+		} else if(player.equals("p4")) {
+			position = new Vector2(50f, Gdx.graphics.getHeight() - 40f);
+			destination = new Vector2(50f, Gdx.graphics.getHeight() - 40f);
+			direction = new Vector2(1, 0);
+		}
 
-		poly = createRectanglePolygon(getWidth(), getHeight(), color == null ? defaultColor : color);
 
-		direction = new Vector2(1, 0);
+		poly = createRectanglePolygon(getWidth(), getHeight(), colorString == null ? defaultColor : colorString);
+
 		speed = UNIT_SPEED;
 
-		controlMap.put(new InputKey(Integer.valueOf(PROPERTIES.getProperty(player + ".forward")), controller), moveForward);
-		controlMap.put(new InputKey(Integer.valueOf(PROPERTIES.getProperty(player + ".right")), controller), rotateRight);
-		controlMap.put(new InputKey(Integer.valueOf(PROPERTIES.getProperty(player + ".left")), controller), rotateLeft);
+		forward = new InputKey(Integer.parseInt(LightMain.PROPERTIES.getProperty(player + ".forward")), controller);
+		left = new InputKey(Integer.parseInt(LightMain.PROPERTIES.getProperty(player + ".left")), controller);
+		right = new InputKey(Integer.parseInt(LightMain.PROPERTIES.getProperty(player + ".right")), controller);
+		controlMap.put(forward, moveForward);
+		controlMap.put(left, rotateLeft);
+		controlMap.put(right, rotateRight);
 
-		wall = new Wall(new Vector2(position), position, color);
+		wall = new Wall(new Vector2(position), position, colorString);
 	}
 
 	private Consumer<InputEvent> moveForward = e -> {
@@ -108,7 +132,7 @@ public class Bike extends Entity implements Collider, Controllable {
 
 	public void kill() {
 		logger.info("KIIILLED");
-		PlayScreen.bikes.remove(this);
+		PlayScreen.graveyard.add(this);
 	}
 
 	public Wall getWall() {
