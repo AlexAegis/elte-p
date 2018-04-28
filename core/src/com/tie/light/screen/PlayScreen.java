@@ -5,8 +5,11 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.controllers.Controller;
 import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.tie.light.entities.Bike;
+import com.tie.light.entities.Wall;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -15,71 +18,98 @@ import static com.tie.light.LightMain.INPUT_HANDLER;
 
 public class PlayScreen implements Screen {
 
-    private SpriteBatch batch;
-    private Set<Bike> bikes = new HashSet<>();
-    private int playerCount;
+	private SpriteBatch batch;
+	private PolygonSpriteBatch polygonSpriteBatch;
 
-    public PlayScreen(int playerCount) {
-        this.playerCount = playerCount;
-    }
+	public static Set<Bike> bikes = new HashSet<>();
+	private int playerCount;
 
-    @Override
-    public void show() {
-        Gdx.input.setInputProcessor(INPUT_HANDLER);
 
-        int i;
-        for(i = 0; i<playerCount; i++) {
-            bikes.add(new Bike(i, null));
-        }
-        for (Controller controller : Controllers.getControllers()) {
-            i++;
-            controller.addListener(INPUT_HANDLER);
-            bikes.add(new com.tie.light.entities.Bike(i, controller));
-        }
-        //northernWall = new Wall(new Vector2(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2), new Vector2(800, 200));
+	private Wall northernWall;
+	private Wall southernWall;
+	private Wall westernWall;
+	private Wall easternWall;
 
-        batch = new SpriteBatch();
 
-    }
+	public PlayScreen(int playerCount) {
+		this.playerCount = playerCount;
+	}
 
-    @Override
-    public void render(float delta) {
-        Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        batch.begin();
+	@Override
+	public void show() {
 
-        //northernWall.getDirection().set(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY());
-        //batch.setProjectionMatrix(new Matrix4(new Quaternion(10,0,0,100) ));
-        //northernWall.draw(batch, 1);
-        for (Bike bike : bikes) {
-            bike.draw(batch, 1);
-        }
+		Gdx.input.setInputProcessor(INPUT_HANDLER);
 
-        batch.end();
-    }
 
-    @Override
-    public void resize(int width, int height) {
+		int i = 0;
+		bikes.add(new Bike(i, null));
 
-    }
+		i++;
+		//bikes.add(new Bike(i, null));
+		for (Controller controller : Controllers.getControllers()) {
+			i++;
+			controller.addListener(INPUT_HANDLER);
+			bikes.add(new com.tie.light.entities.Bike(i, controller));
+		}
 
-    @Override
-    public void pause() {
+		northernWall = new Wall(new Vector2(0, Gdx.graphics.getHeight()), new Vector2(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+		southernWall = new Wall(new Vector2(0, 0), new Vector2(Gdx.graphics.getWidth(), 0));
+		westernWall = new Wall(new Vector2(0, 0), new Vector2(0, Gdx.graphics.getHeight()));
+		easternWall = new Wall(new Vector2(Gdx.graphics.getWidth(), 0), new Vector2(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
 
-    }
+		batch = new SpriteBatch();
+		polygonSpriteBatch = new PolygonSpriteBatch();
 
-    @Override
-    public void resume() {
+		batch = new SpriteBatch();
 
-    }
+	}
 
-    @Override
-    public void hide() {
+	@Override
+	public void render(float delta) {
+		Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-    }
 
-    @Override
-    public void dispose() {
+		batch.begin();
 
-    }
+
+		for (Bike bike : bikes) {
+			bike.draw(batch, 1);
+		}
+
+		batch.end();
+		polygonSpriteBatch.begin();
+		northernWall.draw(polygonSpriteBatch, 1);
+		southernWall.draw(polygonSpriteBatch, 1);
+		westernWall.draw(polygonSpriteBatch, 1);
+		easternWall.draw(polygonSpriteBatch, 1);
+		polygonSpriteBatch.end();
+	}
+
+	@Override
+	public void resize(int width, int height) {
+
+	}
+
+	@Override
+	public void pause() {
+
+	}
+
+	@Override
+	public void resume() {
+
+	}
+
+	@Override
+	public void hide() {
+
+	}
+
+	@Override
+	public void dispose() {
+		batch.dispose();
+		polygonSpriteBatch.dispose();
+	}
+
 }

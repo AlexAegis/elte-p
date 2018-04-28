@@ -14,6 +14,7 @@ import com.tie.light.input.InputKey;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.logging.Logger;
 
@@ -21,10 +22,9 @@ public abstract class Entity extends Actor {
 
 	protected final Logger logger = Logger.getLogger(Entity.class.getName());
 
-
 	protected Vector2 position;
 	protected Vector2 direction;
-	protected PolygonSpriteBatch polyBatch = new PolygonSpriteBatch();
+	protected Vector2 destination;
 	protected PolygonSprite poly;
 
 	public Double distance(Vector2 object1, Vector2 object2) {
@@ -38,10 +38,10 @@ public abstract class Entity extends Actor {
 		Texture textureSolid = new Texture(pix);
 		PolygonRegion polyReg = new PolygonRegion(new TextureRegion(textureSolid),
 				new float[]{                        // Four vertices
-						0,  - (width / 2),          // Vertex 0         3--2
-						height, - (width / 2),      // Vertex 1         | /|
+						0, -(width / 2),          // Vertex 0         3--2
+						height, -(width / 2),      // Vertex 1         | /|
 						height, width / 2,          // Vertex 2         |/ |
-						0,  width / 2               // Vertex 3         0--1
+						0, width / 2               // Vertex 3         0--1
 				}, new short[]{
 				0, 1, 2,         // Two triangles using vertex indices.
 				0, 2, 3          // Take care of the counter-clockwise direction.
@@ -77,4 +77,32 @@ public abstract class Entity extends Actor {
 	public void setDirection(Vector2 direction) {
 		this.direction = direction;
 	}
+
+	public PolygonSprite getPoly() {
+		return poly;
+	}
+
+	public void setPoly(PolygonSprite poly) {
+		this.poly = poly;
+	}
+
+	public abstract void kill();
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Entity entity = (Entity) o;
+		return Objects.equals(position, entity.position) /*&&
+				Objects.equals(direction, entity.direction)*/;
+	}
+
+
+
+/*
+	@Override
+	public int hashCode() {
+
+		return Objects.hash(position, direction);
+	}*/
 }
