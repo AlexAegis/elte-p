@@ -2,26 +2,16 @@ package com.tie.light.entities;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.controllers.Controller;
-import com.badlogic.gdx.controllers.mappings.Xbox;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.*;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.*;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.tie.light.LightMain;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.math.Vector2;
 import com.tie.light.input.InputEvent;
 import com.tie.light.input.InputKey;
 import com.tie.light.logic.Collider;
 import com.tie.light.logic.Controllable;
 import com.tie.light.logic.Walldragger;
 
-import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.function.Consumer;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @Walldragger
