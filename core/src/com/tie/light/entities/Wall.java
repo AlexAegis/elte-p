@@ -36,7 +36,7 @@ public class Wall extends Entity implements Collider {
 		Color color = getColor();
 		batch.setColor(color.r, color.g, color.b, color.a * parentAlpha);
 
-		overlaps().findFirst().ifPresent(Bike::kill);
+		overlaps().forEach(b -> b.kill(this));
 
 		setHeight(distance(position, direction).floatValue());
 		poly.setRotation(getAngle());
@@ -60,14 +60,12 @@ public class Wall extends Entity implements Collider {
 		return PlayScreen.bikes.stream()
 				.filter(bike -> (bike.getWall() != null
 						&& bike.getWall().next != null
+						&& bike.getWall().next.next != null
 						&& !position.equals(bike.getWall().position)
 						&& !position.equals(bike.getWall().next.position)
+						&& !position.equals(bike.getWall().next.next.position)
 						&& (doIntersect(bike.position, bike.destination, this.position, this.direction)
 							|| doIntersect(bike.getWall().position, bike.getWall().direction, this.position, this.direction))));
-	}
-
-	public void kill() {
-
 	}
 
 	private Boolean intersect(Entity bike) {

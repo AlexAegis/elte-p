@@ -24,11 +24,13 @@ public class Bike extends Entity implements Collider, Controllable {
 
 	private String player;
 
-	private Float speed;
-	private Float dir = 0f;
 
 	private static final Float UNIT_ROTATION = 7f;
-	private static final Float UNIT_SPEED = 10f;
+	private static final Float UNIT_SPEED = 500f;
+
+	private Float speed = UNIT_SPEED;
+	private Float rotation = UNIT_ROTATION;
+	private Float dir = 0f;
 
 	private Wall wall;
 
@@ -68,8 +70,6 @@ public class Bike extends Entity implements Collider, Controllable {
 		poly.setRotation(dir);
 		direction = direction.rotate(dir);
 
-		speed = UNIT_SPEED;
-
 		//forward = new InputKey(Integer.parseInt(LightMain.PROPERTIES.getProperty(player + ".forward")), controller);
 		left = new InputKey(Integer.parseInt(LightMain.PROPERTIES.getProperty(player + ".left")), controller);
 		right = new InputKey(Integer.parseInt(LightMain.PROPERTIES.getProperty(player + ".right")), controller);
@@ -82,33 +82,35 @@ public class Bike extends Entity implements Collider, Controllable {
 
 	private Consumer<InputEvent> moveForward = e -> {
 		if (e.fire(true)) {
-			this.position.x += direction.x * speed;
-			this.position.y += direction.y * speed;
+			this.position.x += direction.x * speed * Gdx.graphics.getDeltaTime();
+			this.position.y += direction.y * speed * Gdx.graphics.getDeltaTime();
 		}
 	};
 
 	private Consumer<InputEvent> moveBackward = e -> {
 		if (e.fire(true)) {
-			this.position.x -= direction.x * speed;
-			this.position.y -= direction.y * speed;
+			this.position.x -= direction.x * speed * Gdx.graphics.getDeltaTime();
+			this.position.y -= direction.y * speed * Gdx.graphics.getDeltaTime();
 		}
 	};
 
 	private Consumer<InputEvent> rotateLeft = e -> {
 		if(!LightMain.INPUT_HANDLER.getInputMap().containsKey(right)) {
 			if (e.fire(20L, (a) -> wall = wall.spawnWall(position))) {
-				direction = direction.rotate(UNIT_ROTATION);
-				dir = (dir + UNIT_ROTATION) % 360;
+				direction = direction.rotate(rotation);
+				dir = (dir + rotation) % 360;
 				poly.setRotation(dir);
+				destination = new Vector2(position.x + direction.x, position.y + direction.y);
 			}
 		}
 	};
 	private Consumer<InputEvent> rotateRight = e -> {
 		if(!LightMain.INPUT_HANDLER.getInputMap().containsKey(left)) {
 			if (e.fire(20L, (a) -> wall = wall.spawnWall(position))) {
-				direction = direction.rotate(-UNIT_ROTATION);
-				dir = (dir - UNIT_ROTATION) % 360;
+				direction = direction.rotate(-rotation);
+				dir = (dir - rotation) % 360;
 				poly.setRotation(dir);
+				destination = new Vector2(position.x + direction.x, position.y + direction.y);
 			}
 		}
 	};
@@ -118,15 +120,15 @@ public class Bike extends Entity implements Collider, Controllable {
 		Color color = getColor();
 		batch.setColor(color.r, color.g, color.b, color.a * parentAlpha);
 		moveForward.accept(CONTINUOUS_INPUT_EVENT);
-		destination = new Vector2(position.x + direction.x, position.y + direction.y);
 
+		poly.setPosition(position.x, position.y);
 		wall.draw(batch, parentAlpha);
 		poly.draw((PolygonSpriteBatch) batch);
-		poly.setPosition(position.x, position.y);
 		handleInput();
 	}
 
-	public void kill() {
+	public void kill(Wall killer) {
+		System.out.println("killer" + killer + " me " + this.wall);
 		PlayScreen.graveyard.add(this);
 	}
 
