@@ -24,8 +24,14 @@ public class GdxTestRunner extends BlockJUnit4ClassRunner implements Application
 		super(klass);
 		HeadlessApplicationConfiguration conf = new HeadlessApplicationConfiguration();
 
+
+
+
 		new HeadlessApplication(this, conf);
 		Gdx.gl = mock(GL20.class);
+
+		LightMain.loadConfig("../android/assets/config.properties");
+		LightMain.applyConfig();
 	}
 
 	@Override

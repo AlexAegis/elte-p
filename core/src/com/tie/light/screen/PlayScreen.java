@@ -18,7 +18,6 @@ import static com.tie.light.LightMain.INPUT_HANDLER;
 
 public class PlayScreen implements Screen {
 
-	private SpriteBatch batch;
 	private PolygonSpriteBatch polygonSpriteBatch;
 
 	public static Set<Bike> bikes = new HashSet<>();
@@ -57,11 +56,7 @@ public class PlayScreen implements Screen {
 				new Vector2(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()),
 				LightMain.PROPERTIES.getProperty("edge.color"));
 
-		batch = new SpriteBatch();
 		polygonSpriteBatch = new PolygonSpriteBatch();
-
-		batch = new SpriteBatch();
-
 	}
 
 	@Override
@@ -69,16 +64,10 @@ public class PlayScreen implements Screen {
 		Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-
-		batch.begin();
-
-
-		for (Bike bike : bikes) {
-			bike.draw(batch, 1);
-		}
-
-		batch.end();
 		polygonSpriteBatch.begin();
+		for (Bike bike : bikes) {
+			bike.draw(polygonSpriteBatch, 1);
+		}
 		northernWall.draw(polygonSpriteBatch, 1);
 		southernWall.draw(polygonSpriteBatch, 1);
 		westernWall.draw(polygonSpriteBatch, 1);
@@ -113,7 +102,6 @@ public class PlayScreen implements Screen {
 
 	@Override
 	public void dispose() {
-		batch.dispose();
 		polygonSpriteBatch.dispose();
 	}
 

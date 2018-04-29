@@ -25,13 +25,13 @@ public class LightMain extends Game {
 	private final static String CONFIG_FILE_NAME = "config.properties";
 	private final static String CONFIG_LOGGING_LEVEL = "loggingLevel";
 
-	public final static Properties PROPERTIES = new Properties();
+	public static Properties PROPERTIES;
 
 	public Map<Integer, Map<InputKey, InputEvent>> controls = new HashMap<>();
 	public final static InputHandler INPUT_HANDLER = new InputHandler();
 
 	@Parameter(names = {"--loggingLevel", "--logLevel", "-log"})
-	private String loggingLevel;
+	private static String loggingLevel;
 
 	public LightMain(String[] arg) {
 		JCommander.newBuilder()
@@ -61,10 +61,12 @@ public class LightMain extends Game {
 		//img.dispose();
 	}
 
-	private void loadConfig() {
+	public static void loadConfig(String configFileName) {
 		try {
+			PROPERTIES = new Properties();
 			// load default config
-			PROPERTIES.load(Gdx.files.internal(CONFIG_FILE_NAME).read());
+			Gdx.files.getLocalStoragePath();
+			PROPERTIES.load(Gdx.files.internal(configFileName).read());
 
 			// overwrite default config with command line arguments
 			if(loggingLevel != null) {
@@ -75,7 +77,11 @@ public class LightMain extends Game {
 		}
 	}
 
-	private void applyConfig() {
+	public static void loadConfig() {
+		loadConfig(CONFIG_FILE_NAME);
+	}
+
+	public static void applyConfig() {
 		Level level = Level.parse(PROPERTIES.getProperty(CONFIG_LOGGING_LEVEL));
 		LOGGER_ROOT.setLevel(level);
 		for (Handler h : LOGGER_ROOT.getHandlers()) {

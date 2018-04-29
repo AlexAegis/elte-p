@@ -33,8 +33,6 @@ public class Bike extends Entity implements Collider, Controllable {
 	private static final Float UNIT_ROTATION = 7f;
 	private static final Float UNIT_SPEED = 10f;
 
-	protected PolygonSpriteBatch polyBatch  = new PolygonSpriteBatch();
-
 	private Wall wall;
 
 	private InputKey left;
@@ -122,11 +120,9 @@ public class Bike extends Entity implements Collider, Controllable {
 		//moveForward.accept(CONTINUOUS_INPUT_EVENT);
 		destination = new Vector2(position.x + direction.x, position.y + direction.y);
 
-		polyBatch.begin();
-		wall.draw(polyBatch, parentAlpha);
-		poly.draw(polyBatch);
+		wall.draw(batch, parentAlpha);
+		poly.draw((PolygonSpriteBatch) batch);
 		poly.setPosition(position.x, position.y);
-		polyBatch.end();
 		handleInput();
 	}
 
