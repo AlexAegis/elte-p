@@ -44,7 +44,6 @@ public class LightMain extends Game {
 	public void create() {
 		loadConfig();
 		applyConfig();
-
 		setScreen(new MainMenu());
 	}
 

@@ -52,7 +52,6 @@ project(":desktop") {
         compile "com.badlogicgames.gdx:gdx-controllers-desktop:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-controllers-platform:$gdxVersion:natives-desktop"
         compile "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
-        
     }
 }
 
@@ -142,4 +141,28 @@ project(":core") {
 
 tasks.eclipse.doLast {
     delete ".project"
+}
+
+project(":tests") {
+    apply plugin: "java"
+
+    sourceSets.test.java.srcDirs = ["src/"]
+
+    dependencies {
+        compile project(":core")
+
+        compile group: 'junit', name: 'junit', version: '4.12'
+        compile group: 'org.mockito', name: 'mockito-all', version: '1.9.5'
+
+
+        compile "com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion"
+        compile "com.badlogicgames.gdx:gdx:$gdxVersion"
+
+        testCompile group: 'junit', name: 'junit', version: '4.12'
+        testCompile group: 'org.mockito', name: 'mockito-all', version: '1.9.5'
+
+        testCompile "com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion"
+        testCompile "com.badlogicgames.gdx:gdx:$gdxVersion"
+        testCompile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+    }
 }
