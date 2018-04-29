@@ -137,6 +137,8 @@ public class Bike extends Entity implements Collider, Controllable {
 		return wall;
 	}
 
+	public String getName(){return name;}
+
 	public void setWall(Wall wall) {
 		this.wall = wall;
 	}

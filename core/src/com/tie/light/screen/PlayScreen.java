@@ -75,8 +75,9 @@ public class PlayScreen implements Screen {
 		polygonSpriteBatch.end();
 
 		bikes.removeAll(graveyard);
-		if(bikes.size() == 0) {
-			((Game)Gdx.app.getApplicationListener()).setScreen(new MainMenu());
+		if(bikes.size() == 1) {
+			Gdx.app.log(":", String.valueOf(bikes.toArray()[0]));
+			((Game)Gdx.app.getApplicationListener()).setScreen(new WinScreen("1"));
 		}
 	}
 
