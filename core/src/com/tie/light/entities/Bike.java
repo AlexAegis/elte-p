@@ -18,9 +18,6 @@ import com.tie.light.screen.PlayScreen;
 import java.util.function.Consumer;
 import java.util.logging.Logger;
 
-import static com.tie.light.LightMain.PROPERTIES;
-
-@Walldragger
 public class Bike extends Entity implements Collider, Controllable {
 
 	private final Logger logger = Logger.getLogger(Bike.class.getName());
@@ -50,23 +47,26 @@ public class Bike extends Entity implements Collider, Controllable {
 		if(player.equals("p1")) {
 			position = new Vector2(50f, 40f);
 			destination = new Vector2(50f, 40f);
-			direction = new Vector2(1, 0);
+			dir = 0f;
 		} else if(player.equals("p2")) {
 			position = new Vector2(Gdx.graphics.getWidth() - 50f, 40f);
 			destination = new Vector2(Gdx.graphics.getWidth() - 50f, 40f);
-			direction = new Vector2(-1, 0);
+			dir = 180f;
 		} else if(player.equals("p3")) {
 			position = new Vector2(Gdx.graphics.getWidth() - 50f, Gdx.graphics.getHeight() - 40f);
 			destination = new Vector2(Gdx.graphics.getWidth() - 50f, Gdx.graphics.getHeight() - 40f);
-			direction = new Vector2(-1, 0);
+			dir = 180f;
 		} else if(player.equals("p4")) {
 			position = new Vector2(50f, Gdx.graphics.getHeight() - 40f);
 			destination = new Vector2(50f, Gdx.graphics.getHeight() - 40f);
-			direction = new Vector2(1, 0);
+			dir = 0f;
 		}
 
+		direction = new Vector2(1, 0);
 
 		poly = createRectanglePolygon(getWidth(), getHeight(), colorString == null ? defaultColor : colorString);
+		poly.setRotation(dir);
+		direction = direction.rotate(dir);
 
 		speed = UNIT_SPEED;
 
