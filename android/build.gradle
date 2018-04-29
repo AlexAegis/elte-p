@@ -43,6 +43,7 @@ task copyAndroidNatives() {
     file("libs/x86_64/").mkdirs()
     file("libs/x86/").mkdirs()
 
+
     configurations.natives.files.each { jar ->
         def outputDir = null
         if(jar.name.endsWith("natives-arm64-v8a.jar")) outputDir = file("libs/arm64-v8a")
@@ -110,6 +111,7 @@ eclipse {
         buildCommand "com.android.ide.eclipse.adt.PreCompilerBuilder"
         buildCommand "org.eclipse.jdt.core.javabuilder"
         buildCommand "com.android.ide.eclipse.adt.ApkBuilder"
+
     }
 }
 
