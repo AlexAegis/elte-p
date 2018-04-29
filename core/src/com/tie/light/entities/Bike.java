@@ -13,6 +13,8 @@ import com.tie.light.logic.Collider;
 import com.tie.light.logic.Controllable;
 import com.tie.light.screen.PlayScreen;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,6 +36,9 @@ public class Bike extends Entity implements Collider, Controllable {
 	private InputKey right;
 
 	private String name;
+
+
+	Map<InputKey, Consumer<InputEvent>> controlMap = new HashMap<>();
 
 	public Bike(String player, Controller controller) {
 		controlMap.clear();
@@ -125,7 +130,7 @@ public class Bike extends Entity implements Collider, Controllable {
 		poly.setPosition(position.x, position.y);
 		wall.draw(batch, parentAlpha);
 		poly.draw((PolygonSpriteBatch) batch);
-		handleInput();
+		handleInput(controlMap);
 	}
 
 	public void kill(Wall killer) {
