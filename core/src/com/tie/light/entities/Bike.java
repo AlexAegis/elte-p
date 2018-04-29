@@ -15,6 +15,7 @@ import com.tie.light.screen.PlayScreen;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -102,7 +103,7 @@ public class Bike extends Entity implements Collider, Controllable {
 	};
 
 	private Consumer<InputEvent> rotateLeft = e -> {
-		if(!LightMain.INPUT_HANDLER.getInputMap().containsKey(right)) {
+		if (!LightMain.INPUT_HANDLER.getInputMap().containsKey(right)) {
 			if (e.fire(5L, (a) -> wall = wall.spawnWall(position))) {
 				direction = direction.rotate(rotation);
 				dir = (dir + rotation) % 360;
@@ -112,7 +113,7 @@ public class Bike extends Entity implements Collider, Controllable {
 		}
 	};
 	private Consumer<InputEvent> rotateRight = e -> {
-		if(!LightMain.INPUT_HANDLER.getInputMap().containsKey(left)) {
+		if (!LightMain.INPUT_HANDLER.getInputMap().containsKey(left)) {
 			if (e.fire(5L, (a) -> wall = wall.spawnWall(position))) {
 				direction = direction.rotate(-rotation);
 				dir = (dir - rotation) % 360;
@@ -140,8 +141,6 @@ public class Bike extends Entity implements Collider, Controllable {
 		return System.currentTimeMillis() - time;
 	}
 
-
-
 	public void kill(Wall killer) {
 		logger.log(Level.FINE, "killer" + killer + " me " + this.wall);
 		PlayScreen.graveyard.add(this);
@@ -151,9 +150,26 @@ public class Bike extends Entity implements Collider, Controllable {
 		return wall;
 	}
 
-	public String getName(){return name;}
+	public String getName() {
+		return name;
+	}
 
 	public void setWall(Wall wall) {
 		this.wall = wall;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		if (!super.equals(o)) return false;
+		Bike bike = (Bike) o;
+		return Objects.equals(name, bike.name);
+	}
+
+	@Override
+	public int hashCode() {
+
+		return Objects.hash(name);
 	}
 }

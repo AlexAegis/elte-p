@@ -30,7 +30,8 @@ public class PlayScreen implements Screen {
 
 	PlayScreen(int playerCount) {
 		this.playerCount = playerCount;
-
+		bikes.clear();
+		graveyard.clear();
 		INPUT_HANDLER.getInputMap().clear();
 	}
 
@@ -75,9 +76,8 @@ public class PlayScreen implements Screen {
 		polygonSpriteBatch.end();
 
 		bikes.removeAll(graveyard);
-		if(bikes.size() == 1) {
-			Gdx.app.log(":", String.valueOf(bikes.toArray()[0]));
-			((Game)Gdx.app.getApplicationListener()).setScreen(new WinScreen("1"));
+		if (PlayScreen.bikes.size() <= 1) {
+			((Game) Gdx.app.getApplicationListener()).setScreen(new WinScreen(PlayScreen.bikes.iterator().next().getName().replace("p", "")));
 		}
 	}
 
