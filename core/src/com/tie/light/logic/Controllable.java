@@ -12,8 +12,6 @@ import java.util.logging.Logger;
 public interface Controllable {
 	Logger logger = Logger.getLogger(Controllable.class.getName());
 
-	InputEvent CONTINUOUS_INPUT_EVENT = new InputEvent(0L);
-
 	default void handleInput(Map<InputKey, Consumer<InputEvent>> controlMap) {
 		LightMain.INPUT_HANDLER.getInputMap().forEach((key, detail) ->
 				controlMap.getOrDefault(key, e -> logger.log(Level.FINEST, "Non bound key pressed"))
