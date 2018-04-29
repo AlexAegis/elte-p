@@ -70,10 +70,10 @@ public class Bike extends Entity implements Collider, Controllable {
 
 		speed = UNIT_SPEED;
 
-		forward = new InputKey(Integer.parseInt(LightMain.PROPERTIES.getProperty(player + ".forward")), controller);
+		//forward = new InputKey(Integer.parseInt(LightMain.PROPERTIES.getProperty(player + ".forward")), controller);
 		left = new InputKey(Integer.parseInt(LightMain.PROPERTIES.getProperty(player + ".left")), controller);
 		right = new InputKey(Integer.parseInt(LightMain.PROPERTIES.getProperty(player + ".right")), controller);
-		controlMap.put(forward, moveForward);
+		//controlMap.put(forward, moveForward);
 		controlMap.put(left, rotateLeft);
 		controlMap.put(right, rotateRight);
 
@@ -117,7 +117,7 @@ public class Bike extends Entity implements Collider, Controllable {
 	public void draw(Batch batch, float parentAlpha) {
 		Color color = getColor();
 		batch.setColor(color.r, color.g, color.b, color.a * parentAlpha);
-		//moveForward.accept(CONTINUOUS_INPUT_EVENT);
+		moveForward.accept(CONTINUOUS_INPUT_EVENT);
 		destination = new Vector2(position.x + direction.x, position.y + direction.y);
 
 		wall.draw(batch, parentAlpha);
