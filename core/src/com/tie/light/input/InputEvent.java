@@ -28,10 +28,18 @@ public class InputEvent {
 	}
 
 	public Boolean fire(Long timer, Consumer<Integer> consumer) {
-		if (elapsedTime() / timer >= fireCount) {
-			consumer.accept(fireCount);
+		return fire(timer, 0, Integer.MAX_VALUE, consumer);
+	}
+
+	public Boolean fire(Long timer, Integer min, Integer max, Consumer<Integer> consumer) {
+		if (elapsedTime() / timer >= fireCount && fireCount < max) {
+			if (fireCount > min) {
+				consumer.accept(fireCount);
+				time = System.currentTimeMillis();
+			}
 			fireCount++;
 		}
+
 		fired = true;
 		return fired;
 	}
