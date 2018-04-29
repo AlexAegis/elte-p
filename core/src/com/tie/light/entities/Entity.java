@@ -32,7 +32,7 @@ public abstract class Entity extends Actor {
 
 	public static PolygonSprite createRectanglePolygon(Float width, Float height, String color) {
 		Pixmap pix = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
-		if(color != null) {
+		if (color != null) {
 			pix.setColor(Integer.decode(color));
 		} else {
 			pix.setColor(Integer.decode(defaultColor));
@@ -89,23 +89,23 @@ public abstract class Entity extends Actor {
 		this.poly = poly;
 	}
 
-	public abstract void kill();
-
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 		Entity entity = (Entity) o;
-		return Objects.equals(position, entity.position) /*&&
-				Objects.equals(direction, entity.direction)*/;
+		return Objects.equals(position, entity.position);
 	}
 
-
-
-/*
 	@Override
-	public int hashCode() {
-
-		return Objects.hash(position, direction);
-	}*/
+	public String toString() {
+		return "Entity{" +
+				"position=" + position +
+				", direction=" + direction +
+				", destination=" + destination +
+				", poly=" + poly +
+				", color=" + color +
+				", colorString='" + colorString + '\'' +
+				'}';
+	}
 }

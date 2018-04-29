@@ -19,10 +19,8 @@ public class InputKey {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 		InputKey inputKey = (InputKey) o;
-		return Objects.equals(key, inputKey.key);
-				/*
-				&&
-				(inputKey.controller == null || Objects.equals(controller, inputKey.controller));*/
+		return Objects.equals(key, inputKey.key)
+				&& (inputKey.controller == null || Objects.equals(controller, inputKey.controller));
 	}
 
 	@Override
