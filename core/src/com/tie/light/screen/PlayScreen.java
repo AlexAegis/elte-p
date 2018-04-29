@@ -5,7 +5,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.tie.light.LightMain;
 import com.tie.light.entities.Bike;
@@ -29,15 +28,16 @@ public class PlayScreen implements Screen {
 	private Wall westernWall;
 	private Wall easternWall;
 
-	public PlayScreen(int playerCount) {
+	PlayScreen(int playerCount) {
 		this.playerCount = playerCount;
+
+		INPUT_HANDLER.getInputMap().clear();
 	}
 
 	@Override
 	public void show() {
 
 		Gdx.input.setInputProcessor(INPUT_HANDLER);
-
 
 		for (int j = 1; j <= playerCount; j++) {
 			bikes.add(new Bike("p" + Integer.toString(j), null));

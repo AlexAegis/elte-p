@@ -1,7 +1,6 @@
 package com.tie.light.entities;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.controllers.Controller;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -12,18 +11,15 @@ import com.tie.light.input.InputEvent;
 import com.tie.light.input.InputKey;
 import com.tie.light.logic.Collider;
 import com.tie.light.logic.Controllable;
-import com.tie.light.logic.Walldragger;
 import com.tie.light.screen.PlayScreen;
 
 import java.util.function.Consumer;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Bike extends Entity implements Collider, Controllable {
 
 	private final Logger logger = Logger.getLogger(Bike.class.getName());
-
-	private String player;
-
 
 	private static final Float UNIT_ROTATION = 7f;
 	private static final Float UNIT_SPEED = 500f;
@@ -36,32 +32,37 @@ public class Bike extends Entity implements Collider, Controllable {
 
 	private InputKey left;
 	private InputKey right;
-	private InputKey forward;
 
 	private String name;
 
 	public Bike(String player, Controller controller) {
+		controlMap.clear();
 		this.name = player;
 		setWidth(10);
 		setHeight(20);
 		colorString = LightMain.PROPERTIES.getProperty(player + ".color");
 
-		if(player.equals("p1")) {
-			position = new Vector2(50f, 40f);
-			destination = new Vector2(50f, 40f);
-			dir = 0f;
-		} else if(player.equals("p2")) {
-			position = new Vector2(Gdx.graphics.getWidth() - 50f, 40f);
-			destination = new Vector2(Gdx.graphics.getWidth() - 50f, 40f);
-			dir = 180f;
-		} else if(player.equals("p3")) {
-			position = new Vector2(Gdx.graphics.getWidth() - 50f, Gdx.graphics.getHeight() - 40f);
-			destination = new Vector2(Gdx.graphics.getWidth() - 50f, Gdx.graphics.getHeight() - 40f);
-			dir = 180f;
-		} else if(player.equals("p4")) {
-			position = new Vector2(50f, Gdx.graphics.getHeight() - 40f);
-			destination = new Vector2(50f, Gdx.graphics.getHeight() - 40f);
-			dir = 0f;
+		switch (player) {
+			case "p1":
+				position = new Vector2(50f, 40f);
+				destination = new Vector2(50f, 40f);
+				dir = 0f;
+				break;
+			case "p2":
+				position = new Vector2(Gdx.graphics.getWidth() - 50f, 40f);
+				destination = new Vector2(Gdx.graphics.getWidth() - 50f, 40f);
+				dir = 180f;
+				break;
+			case "p3":
+				position = new Vector2(Gdx.graphics.getWidth() - 50f, Gdx.graphics.getHeight() - 40f);
+				destination = new Vector2(Gdx.graphics.getWidth() - 50f, Gdx.graphics.getHeight() - 40f);
+				dir = 180f;
+				break;
+			case "p4":
+				position = new Vector2(50f, Gdx.graphics.getHeight() - 40f);
+				destination = new Vector2(50f, Gdx.graphics.getHeight() - 40f);
+				dir = 0f;
+				break;
 		}
 
 		direction = new Vector2(1, 0);
@@ -128,7 +129,7 @@ public class Bike extends Entity implements Collider, Controllable {
 	}
 
 	public void kill(Wall killer) {
-		System.out.println("killer" + killer + " me " + this.wall);
+		logger.log(Level.FINE, "killer" + killer + " me " + this.wall);
 		PlayScreen.graveyard.add(this);
 	}
 
