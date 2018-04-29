@@ -30,7 +30,7 @@ public class MainMenu implements Screen {
     BitmapFont font24;
     Label label;
     public AssetManager assets;
-    int slider_value;
+    Slider slider;
 
     public MainMenu() {
         assets = new AssetManager();
@@ -72,11 +72,10 @@ public class MainMenu implements Screen {
         playButton.setSize(width*0.15f,height*0.1f);
         playButton.setPosition(width*0.02f,height*0.79f);
         AtomicInteger playerCount = new AtomicInteger(1);
-        Slider slider = new Slider(1, 4, 1, false, skin);
+         slider = new Slider(1, 4, 1, false, skin);
         slider.setPosition(width*0.02f,height*0.65f);
-        slider_value = (int)slider.getValue();
         slider.addListener((Event event) -> { playerCount.set((int) slider.getValue()); return false; });
-        Gdx.app.log("slider.getvalue()", String.valueOf(slider.getValue()));
+
         TextButton exitButton = new TextButton("Exit", skin);
         exitButton.setSize(width*0.15f,height*0.1f);
         exitButton.setPosition(width*0.02f,height*0.52f);
@@ -122,7 +121,7 @@ public class MainMenu implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(.1f, .12f, .16f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        label.setText("Retro text: " + slider_value);
+        label.setText("Retro text: " + String.valueOf((int)slider.getValue()));
         stage.act();
         stage.draw();
     }
